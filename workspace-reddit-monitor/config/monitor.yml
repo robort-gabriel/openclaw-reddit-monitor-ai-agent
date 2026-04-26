@@ -1,0 +1,17 @@
+# Subreddit monitor — edit as needed. Names without r/ .
+subreddits:
+  - openclaw
+keyword_include: []
+keyword_exclude: []
+# Max post lines in one digest run
+max_posts_per_digest: 12
+# Soft cap: agent / llm should not exceed many new open drafts in a day
+max_comment_drafts_per_day: 5
+# How many existing Reddit comments to pull as context for the two generated drafts
+thread_context_comment_limit: 8
+# Target max length (characters) for each generated draft body (guidance to the model)
+max_comment_length: 500
+# How often you intend to run the monitor (for SCHEDULE.md / crontab hints; not a timer inside Node)
+monitor_interval_minutes: 180
+# Product always offers two options: draft-1 and draft-2 (same post URL, different body).
+# (draft_options_count: 2) — ignored; kept in older configs as a comment if present.

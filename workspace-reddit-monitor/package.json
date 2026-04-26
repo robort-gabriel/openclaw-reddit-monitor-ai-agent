@@ -1,0 +1,9 @@
+{
+  "name": "workspace-reddit-monitor",
+  "private": true,
+  "type": "module",
+  "description": "OpenClaw Reddit monitor agent workspace — RSS monitoring, digests, and reply drafting.",
+  "dependencies": {
+    "better-sqlite3": "^12.6.2"
+  }
+}

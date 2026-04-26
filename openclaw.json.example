@@ -1,0 +1,52 @@
+{
+  "agents": {
+    "list": [
+      {
+        "id": "reddit-monitor",
+        "name": "Reddit monitor",
+        "workspace": "~/.openclaw/workspace-reddit-monitor",
+        "agentDir": "~/.openclaw/agents/reddit-monitor/agent",
+        "tools": {
+          "allow": ["group:fs", "group:web", "browser", "message", "lobster", "llm-task"],
+          "exec": {
+            "host": "gateway",
+            "security": "allowlist",
+            "ask": "off"
+          }
+        }
+      }
+    ]
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "accounts": {
+        "reddit-monitor": {
+          "enabled": true,
+          "dmPolicy": "pairing",
+          "botToken": "${TELEGRAM_BOT_TOKEN_REDDIT_MONITOR}",
+          "groupPolicy": "disabled"
+        }
+      }
+    }
+  },
+  "bindings": [
+    {
+      "agentId": "reddit-monitor",
+      "match": {
+        "channel": "telegram",
+        "accountId": "reddit-monitor"
+      }
+    }
+  ],
+  "browser": {
+    "enabled": true,
+    "defaultProfile": "openclaw"
+  },
+  "plugins": {
+    "entries": {
+      "lobster": { "enabled": true },
+      "llm-task": { "enabled": true }
+    }
+  }
+}

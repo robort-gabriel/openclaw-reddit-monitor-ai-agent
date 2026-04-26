@@ -1,0 +1,8 @@
+# Drafts are no longer .md files
+
+Create or update an **open** draft in SQLite, for example:
+
+- **Lobster:** `pipelines/create-draft.lobster` with `argsJson`: `workspace_root`, `draft_num` (e.g. `1`), `post_url`, `body`.
+- **CLI:** `echo '{"workspace_root":"…","draft_num":1,"post_url":"https://www.reddit.com/…","body":"…"}' | node scripts/lobster_upsert_draft.mjs` (from workspace root, or set paths accordingly).
+
+Then use `approve draft-1` as before (`comment-from-approval.lobster`).

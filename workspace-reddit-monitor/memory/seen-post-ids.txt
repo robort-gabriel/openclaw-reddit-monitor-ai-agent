@@ -1,0 +1,2 @@
+# One Reddit fullname per line (e.g. t3_abc123). Lines starting with # are ignored.
+# The monitor pipeline appends new ids after each digest that includes those posts.

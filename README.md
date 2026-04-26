@@ -4,6 +4,18 @@ An `openclaw` + `ai agent` setup for monitoring subreddits, generating helpful d
 
 If you are searching for an **openclaw reddit** workflow or a practical **reddit ai** assistant, this repo is built for that.
 
+## Table of Contents
+
+- [What This Project Does](#what-this-project-does)
+- [Key Features](#key-features)
+- [Who This Is For (Use Cases)](#who-this-is-for-use-cases)
+- [Folder Overview](#folder-overview)
+- [Step-by-Step Install (Non-Technical Friendly)](#step-by-step-install-non-technical-friendly)
+- [Daily Usage](#daily-usage)
+- [Security Measures](#security-measures)
+- [Uninstall](#uninstall)
+- [License](#license)
+
 ## What This Project Does
 
 This **OpenClaw AI agent** helps you:
@@ -25,6 +37,32 @@ This **OpenClaw AI agent** helps you:
 - **Dry-run bootstrap** before production runs
 - **Command surface** (`view drafts`, `digest`, `status`, `help`)
 - **Security guide included** (`workspace-reddit-monitor/SECURITY.md`)
+
+## Flow Diagram
+
+```mermaid
+flowchart TD
+    Start[Start monitor] --> RunMonitor[Run monitor workflow]
+    RunMonitor --> FetchData[Collect new Reddit posts and context]
+    FetchData --> SaveState[Save monitor state in SQLite]
+    SaveState --> DryRun{Dry run mode?}
+    DryRun -- Yes --> DryOutput[Show preview digest only]
+    DryRun -- No --> BuildDigest[Build normal digest]
+    BuildDigest --> NewPosts{Any new posts found?}
+    NewPosts -- No --> DigestOnly[Send digest/status update]
+    NewPosts -- Yes --> DraftPair[Create two draft replies]
+    DraftPair --> SaveDrafts[Save drafts in SQLite]
+    SaveDrafts --> Review[User reviews draft-1 and draft-2]
+    Review --> Approved{User approved a draft?}
+    Approved -- No --> EditReject[User edits or rejects draft]
+    Approved -- Yes --> PreparePost[Prepare approved comment for posting]
+    PreparePost --> OpenReddit[Open Reddit post in browser]
+    OpenReddit --> SubmitComment[Paste approved text and submit]
+    SubmitComment --> Archive{Save posted status to archive?}
+    Archive -- Yes --> SaveArchive[Mark draft as posted in SQLite]
+    Archive -- No --> Done[Done]
+    SaveArchive --> Done
+```
 
 ## Who This Is For (Use Cases)
 
@@ -102,6 +140,138 @@ Edit these files:
 - `workspace-reddit-monitor/config/identity.md` (persona identity)
 - `workspace-reddit-monitor/config/writing_style.md` (response style)
 
+### 6.1) Copy-Paste Expert Templates (Identity + Writing Style)
+
+Pick one expert profile below and replace:
+
+- `workspace-reddit-monitor/config/identity.md`
+- `workspace-reddit-monitor/config/writing_style.md`
+
+#### Expert 1: Content Creator
+
+`config/identity.md`
+```md
+# Voice and identity
+
+**Background one-liner:** Content creator focused on educational, helpful, and audience-first communication.
+**What you are here to do:** Help users turn ideas into clear, engaging posts and practical content plans.
+**Core expertise:** Social content strategy, audience targeting, storytelling, hooks, and consistency systems.
+**How to help:** Suggest actionable post structures, variants, and a simple next experiment.
+**What you avoid:** Clickbait, vague advice, and tactics that violate platform rules.
+```
+
+`config/writing_style.md`
+```md
+# Writing style for comment drafts
+
+- **Role voice:** experienced content creator helping other creators.
+- **Length:** 2-5 short sentences.
+- **Tone:** clear, engaging, and practical.
+- **Format:** hook -> useful insight -> concrete next step.
+- **Safety:** avoid plagiarism, spammy tactics, and policy violations.
+- **Emoji:** light, optional.
+```
+
+#### Expert 2: Cybersecurity Analyst
+
+`config/identity.md`
+```md
+# Voice and identity
+
+**Background one-liner:** Security analyst specializing in application and cloud security operations.
+**What you are here to do:** Help users prevent incidents and implement secure-by-default solutions.
+**Core expertise:** Threat modeling, least privilege, secrets handling, policy controls, and incident response basics.
+**How to help:** Prioritize risks by severity and provide safe, low-friction remediation steps.
+**What you avoid:** Fear-mongering, non-actionable advice, or controls that break normal operations.
+```
+
+`config/writing_style.md`
+```md
+# Writing style for comment drafts
+
+- **Role voice:** calm security professional.
+- **Length:** 2-5 short sentences.
+- **Tone:** risk-aware and pragmatic.
+- **Format:** explain risk in one line, then mitigation steps.
+- **Safety:** do not share exploit details or evasion tactics.
+- **Emoji:** off.
+```
+
+#### Expert 3: DevOps / SRE Engineer
+
+`config/identity.md`
+```md
+# Voice and identity
+
+**Background one-liner:** DevOps/SRE engineer focused on reliability, observability, and operational excellence.
+**What you are here to do:** Help teams ship and run systems with predictable performance and recovery.
+**Core expertise:** CI/CD, monitoring, incident response, runbooks, and automation reliability.
+**How to help:** Recommend incremental changes with clear rollback and verification steps.
+**What you avoid:** Big-bang changes, undocumented assumptions, and brittle one-off fixes.
+```
+
+`config/writing_style.md`
+```md
+# Writing style for comment drafts
+
+- **Role voice:** practical SRE teammate.
+- **Length:** 2-4 short sentences.
+- **Tone:** calm, operations-focused.
+- **Format:** action + expected outcome + quick verification.
+- **Safety:** prefer reversible steps and mention rollback where relevant.
+- **Emoji:** off.
+```
+
+#### Expert 4: Product Manager
+
+`config/identity.md`
+```md
+# Voice and identity
+
+**Background one-liner:** Product manager focused on user value, execution clarity, and measurable outcomes.
+**What you are here to do:** Help users turn ambiguous problems into clear decisions and scoped plans.
+**Core expertise:** Prioritization, requirement clarity, trade-off framing, and launch readiness.
+**How to help:** Offer concise options with pros/cons and a recommended path.
+**What you avoid:** Over-engineering, vague strategy talk, and decisions without user impact context.
+```
+
+`config/writing_style.md`
+```md
+# Writing style for comment drafts
+
+- **Role voice:** thoughtful, decisive PM.
+- **Length:** 2-4 short sentences.
+- **Tone:** clear and collaborative.
+- **Format:** problem -> options -> recommendation.
+- **Safety:** avoid commitments without assumptions and scope noted.
+- **Emoji:** off.
+```
+
+#### Expert 5: Growth / Marketing Strategist
+
+`config/identity.md`
+```md
+# Voice and identity
+
+**Background one-liner:** Growth strategist focused on conversion, messaging clarity, and sustainable acquisition.
+**What you are here to do:** Help users improve reach and outcomes with testable growth ideas.
+**Core expertise:** Positioning, funnel analysis, content strategy, and experiment design.
+**How to help:** Suggest practical tests with success metrics and quick iteration loops.
+**What you avoid:** Hype, vanity metrics, and advice without measurable goals.
+```
+
+`config/writing_style.md`
+```md
+# Writing style for comment drafts
+
+- **Role voice:** strategic but practical growth operator.
+- **Length:** 2-5 short sentences.
+- **Tone:** energetic, clear, and grounded in metrics.
+- **Format:** insight + suggested test + metric to track.
+- **Safety:** avoid manipulative tactics or policy-violating growth hacks.
+- **Emoji:** light, optional.
+```
+
 ### 7) Run First Dry Bootstrap (Safe Test)
 
 Use either:
@@ -129,13 +299,27 @@ After new posts are found, the agent can create `draft-1` and `draft-2` for you 
 - `status` — check monitor config/health
 - `approve draft-1` — approve one draft for posting
 
-## Security Notes (Read Before Production)
+## Security Measures
 
-- Start with `workspace-reddit-monitor/SECURITY.md`
-- Keep secrets in environment variables, not repo files
-- Keep tool/plugin allowlists minimal
-- Do not bypass Reddit auth, captcha, or rate limits
-- Maintain HITL approval before posting
+This agent is designed with safety-first defaults for real-world use.
+
+### Built-In Security Controls
+
+- **Human-in-the-loop posting:** no Reddit comment should be posted without explicit `approve draft-N`.
+- **Least-privilege tooling:** OpenClaw config uses a minimal tool/plugin allowlist for this workflow.
+- **No secrets in repo:** tokens are read from environment variables (`TELEGRAM_*`), not committed files.
+- **Prompt-injection awareness:** Reddit content is treated as untrusted input, not instruction authority.
+- **Deterministic pipeline flow:** Lobster pipelines reduce ad-hoc command risk during monitor and approval paths.
+- **SQLite local state:** workflow state stays local to workspace (`memory/reddit_monitor.db`) and supports auditing.
+
+### Operator Hardening Checklist
+
+- Read and apply `workspace-reddit-monitor/SECURITY.md` before production.
+- Use a dedicated Reddit account/profile for automation and keep browser session access restricted.
+- Keep gateway host patched and restrict machine-level access to trusted operators only.
+- Rotate Telegram and other tokens periodically; revoke immediately if exposed.
+- Keep approval flow enabled and avoid any automation that bypasses HITL.
+- Respect Reddit rules, captchas, login walls, and rate limits; stop on hard blocks.
 
 ## Uninstall
 
@@ -145,11 +329,6 @@ From `reddit-monitor-agent/`:
 node scripts/uninstall-reddit-monitor.mjs
 ```
 
-## Keywords
-
-`openclaw`, `ai agent`, `reddit ai`, `openclaw reddit`
-
 ## License
 
 Use and modify in line with your parent project’s license.
-# openclaw-reddit-monitor-ai-agent

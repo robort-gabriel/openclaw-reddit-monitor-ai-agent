@@ -1,0 +1,4 @@
+reddit_monitor.db
+reddit_monitor.db-*
+*.db-wal
+*.db-shm
