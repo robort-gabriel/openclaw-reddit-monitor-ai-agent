@@ -1,13 +1,28 @@
-# OpenClaw Reddit Monitor Agent
+<h1 align="center">🦞 OpenClaw Reddit Monitor Agent</h1>
 
-An `openclaw` + `ai agent` setup for monitoring subreddits, generating helpful draft replies, and keeping a human in control before posting.
+<p align="center">
+  Monitor Reddit. Generate two draft replies. Keep humans in control before posting.
+</p>
 
-If you are searching for an **openclaw reddit** workflow or a practical **reddit ai** assistant, this repo is built for that.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/openclaw/openclaw/main/docs/assets/openclaw-logo-text-dark.png" alt="OpenClaw" width="520" />
+</p>
+
+<p align="center">
+  <img alt="Workflow" src="https://img.shields.io/badge/workflow-lobster--first-2563eb" />
+  <img alt="Approval" src="https://img.shields.io/badge/posting-HITL%20approval-16a34a" />
+  <img alt="Storage" src="https://img.shields.io/badge/storage-SQLite-0ea5e9" />
+  <img alt="Runtime" src="https://img.shields.io/badge/runtime-OpenClaw%20Gateway-f97316" />
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-2563eb" />
+</p>
+
+An `openclaw` + `ai agent` setup for monitoring subreddits, generating useful draft replies, and posting only after explicit approval.
 
 ## Table of Contents
 
 - [What This Project Does](#what-this-project-does)
 - [Key Features](#key-features)
+- [Flow Diagram](#flow-diagram)
 - [Who This Is For (Use Cases)](#who-this-is-for-use-cases)
 - [Folder Overview](#folder-overview)
 - [Step-by-Step Install (Non-Technical Friendly)](#step-by-step-install-non-technical-friendly)
